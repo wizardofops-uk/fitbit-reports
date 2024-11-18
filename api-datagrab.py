@@ -22,7 +22,7 @@ def get_access_token(client_id, redirect_uri):
     "client_id": client_id,
     "redirect_uri": redirect_uri,
     "response_type": "code",
-    "scope": "profile nutrition weight",
+    "scope": "profile nutrition weight activity",
     "code_challenge_method": "S256",
     "code_challenge": code_challenge,
     "state": code_state
@@ -78,7 +78,7 @@ today = datetime.now()
 days_list = [(today - timedelta(days=i)).strftime("%Y-%m-%d") for i in range(args.days)]
 
 if not args.token:
-  access_token = get_access_token()
+  access_token = get_access_token(args.client_id, args.redirect_uri)
 else:
   access_token = args.token
 
@@ -96,26 +96,25 @@ with open("dataset/api/nutrition.json", "w") as nutri_f:
 	json.dump(nutri_dict, nutri_f)
    
 # Get Water Log Data
-# The endpoint listed in the Swagger docs doesn't return the correct data
-# water_dict = {}
-# for date in days_list:
-#   water_day = get_endpoint(access_token,f"https://api.fitbit.com/1/user/{args.user}/foods/log/water/date/{date}.json")
-#   water_dict[date] = json.loads(water_day)
-# with open("dataset/api/water.json", "w") as water_f:
-# 	json.dump(nutri_dict, water_f)
+water_dict = {}
+for date in days_list:
+  water_day = get_endpoint(access_token,f"https://api.fitbit.com/1/user/{args.user}/foods/log/water/date/{date}.json")
+  water_dict[date] = json.loads(water_day)
+with open("dataset/api/water.json", "w") as water_f:
+	json.dump(water_dict, water_f)
 
-# # Get Weight Data
-# weight_dict = {}
-# for date in days_list:
-#   weight_day = get_endpoint(access_token,f"https://api.fitbit.com/1/user/{args.user}/body/log/weight/date/{date}.json")
-#   weight_dict[date] = json.loads(nutri_day)
-# with open("dataset/api/weight.json", "w") as weight_f:
-# 	json.dump(weight_dict, weight_f)
-
-# # Get Bodyfat Data
-# bfat_dict = {}
-# for date in days_list:
-#   bfat_day =  get_endpoint(access_token,f"https://api.fitbit.com/1/user/{args.user}/body/log/fat/date/{date}.json")
-#   bfat_dict[date] = json.loads(bfat_day)
-# with open("dataset/api/bodyfat.json", "w") as bfat_f:
-# 	json.dump(bfat_dict, bfat_f)
+# Get Weight Data
+weight_dict = {}
+for date in days_list:
+  weight_day = get_endpoint(access_token,f"https://api.fitbit.com/1/user/{args.user}/body/log/weight/date/{date}.json")
+  weight_dict[date] = json.loads(weight_day)
+with open("dataset/api/weight.json", "w") as weight_f:
+	json.dump(weight_dict, weight_f)
+    
+# Get Activity Data
+activ_dict = {}
+for date in days_list:
+  activ_day =  get_endpoint(access_token,f"https://api.fitbit.com/1/user/{args.user}/activities/date/{date}.json")
+  activ_dict[date] = json.loads(activ_day)
+with open("dataset/api/activity.json", "w") as activ_f:
+	json.dump(activ_dict, activ_f)
