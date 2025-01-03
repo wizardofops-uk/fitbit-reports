@@ -75,7 +75,7 @@ args = parser.parse_args()
 
 # Get today's date
 today = datetime.now()
-days_list = [(today - timedelta(days=i)).strftime("%Y-%m-%d") for i in range(args.days)]
+days_list = [(today - timedelta(days=i)).strftime("%Y-%m-%d") for i in range(args.days+1)]
 
 if not args.token:
   access_token = get_access_token(args.client_id, args.redirect_uri)

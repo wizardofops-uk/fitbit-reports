@@ -143,7 +143,8 @@ day_total = pd.merge(day_total, df_calsout, on='Date', how='left')
 
 # Sort the data
 df = pd.concat([df_nutri, day_total], ignore_index=True) 
-df = df.sort_values(by=['Date', 'Meal']).reset_index(drop=True) 
+df = df.sort_values(by=['Date', 'Meal']).reset_index(drop=True)
+df = df.iloc[::-1].reset_index(drop=True) 
 df['Day'] = df['Date'].dt.strftime('%A')
 df.loc[df.duplicated(subset=['Date', 'Day']), ['Date', 'Day']] = ''
 column_order = [
@@ -168,12 +169,8 @@ df[column_order[8]] = pd.to_numeric(df[column_order[8]], errors='coerce')
 df[column_order[9]] = pd.to_numeric(df[column_order[9]], errors='coerce')
 df[column_order[10]] = pd.to_numeric(df[column_order[10]], errors='coerce')
 df[column_order[11]] = pd.to_numeric(df[column_order[11]], errors='coerce')
+df[column_order[12]] = pd.to_numeric(df[column_order[12]], errors='coerce')
 df = df.fillna('')
-
-# Add new row after total
-# df = pd.DataFrame(columns=df.columns)  
-# for index, row in df.iterrows(): 
-#   df = pd.concat([df, pd.DataFrame([row]), pd.DataFrame([['']*len(df.columns)], columns=df.columns)], ignore_index=True)
 
 # Style the data
 df_display = df.style.apply(highlight_total, axis=1).format({
@@ -181,7 +178,7 @@ df_display = df.style.apply(highlight_total, axis=1).format({
   f'{column_order[7]}': '{:.0f}',
   f'{column_order[8]}': '{:.2f}', 
   f'{column_order[9]}': '{:.2f}', 
-  f'{column_order[10]}': '{:.2f}', 
+  f'{column_order[10]}': '{:.2f}'
 })
 
 # Generate HTML formatted dataframes
