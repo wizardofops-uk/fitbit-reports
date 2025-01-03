@@ -8,7 +8,8 @@ https://dev.fitbit.com/build/reference/web-api/explore/#/
 OAuth Tutorial
 https://dev.fitbit.com/build/reference/web-api/troubleshooting-guide/oauth2-tutorial/
 
-Setting up an application
+## Setting up an application
+A dev application with FitBit must be setup to this application to function, up-to-date tutorials can be found here:
 https://dev.fitbit.com/build/reference/web-api/developer-guide/getting-started/
 
 ## Install dependancies
