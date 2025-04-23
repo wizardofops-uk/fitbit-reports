@@ -28,7 +28,7 @@ def get_access_token(client_id, redirect_uri):
     "state": code_state
   }
   auth_response_url = requests.Request("GET", auth_url, params=auth_params).prepare().url
-  webbrowser.open(auth_response_url)
+  webbrowser.open(auth_response_url, 2)
 
   # User authenticates and is redirected back to your app with an authorization code
   # TEMP: Copy and paste the URL when prompted
